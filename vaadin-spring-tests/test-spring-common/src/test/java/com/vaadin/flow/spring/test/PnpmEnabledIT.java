@@ -15,7 +15,7 @@
  */
 package com.vaadin.flow.spring.test;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Assume;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -36,6 +36,6 @@ public class PnpmEnabledIT extends AbstractSpringTest {
         Assume.assumeTrue(Boolean.TRUE.toString().equals(checkPnpm.getText()));
 
         WebElement isPnpm = findElement(By.id("pnpm"));
-        Assert.assertEquals(Boolean.TRUE.toString(), isPnpm.getText());
+        Assertions.assertEquals(Boolean.TRUE.toString(), isPnpm.getText());
     }
 }

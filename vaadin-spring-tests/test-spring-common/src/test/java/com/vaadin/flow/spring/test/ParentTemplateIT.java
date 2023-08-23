@@ -16,9 +16,8 @@
 
 package com.vaadin.flow.spring.test;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.vaadin.testbench.TestBenchElement;
@@ -37,11 +36,11 @@ public class ParentTemplateIT extends AbstractSpringTest {
         TestBenchElement template = $("parent-template").first();
         WebElement div = template.$("*").id("div");
 
-        Assert.assertEquals("baz", div.getText());
+        Assertions.assertEquals("baz", div.getText());
 
         TestBenchElement child = template.$("*").id("child");
 
-        Assert.assertEquals("bar",
+        Assertions.assertEquals("bar",
                 child.$("*").id("info").getText());
     }
 
@@ -53,7 +52,7 @@ public class ParentTemplateIT extends AbstractSpringTest {
 
         TestBenchElement child = template.$("*").id("child");
 
-        Assert.assertEquals("foo",
+        Assertions.assertEquals("foo",
                 child.$("*").id("message").getText());
     }
 }

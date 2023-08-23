@@ -15,7 +15,7 @@
  */
 package com.vaadin.flow.spring.test;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.router.ErrorParameter;

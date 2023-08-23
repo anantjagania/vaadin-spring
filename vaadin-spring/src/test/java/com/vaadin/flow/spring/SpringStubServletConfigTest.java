@@ -1,23 +1,24 @@
 package com.vaadin.flow.spring;
 
-import javax.servlet.ServletContext;
-
-import java.util.Collections;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.web.servlet.ServletRegistrationBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.core.env.Environment;
-
 import com.vaadin.flow.di.Lookup;
 import com.vaadin.flow.di.ResourceProvider;
 import com.vaadin.flow.function.DeploymentConfiguration;
 import com.vaadin.flow.server.Constants;
+
+import jakarta.servlet.ServletContext;
+
+import java.util.Collections;
+
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.when;
 
@@ -38,7 +39,7 @@ public class SpringStubServletConfigTest {
     @Mock
     private ServletRegistrationBean registration;
 
-    @Before
+    @BeforeEach
     public void init() {
         MockitoAnnotations.initMocks(this);
 
@@ -66,41 +67,40 @@ public class SpringStubServletConfigTest {
                 .createDeploymentConfiguration(context, registration,
                         SpringServlet.class, applicationContext);
 
-        Assert.assertFalse("ProductionMode should be 'false' by default.",
-                deploymentConfiguration.isProductionMode());
+        Assertions.assertFalse(deploymentConfiguration.isProductionMode(), "ProductionMode should be 'false' by default.");
 
         when(environment.getProperty(
-                "vaadin." + Constants.SERVLET_PARAMETER_PRODUCTION_MODE))
-                        .thenReturn("true");
+          "vaadin." + Constants.SERVLET_PARAMETER_PRODUCTION_MODE))
+          .thenReturn("true");
 
         deploymentConfiguration = VaadinServletContextInitializer.SpringStubServletConfig
-                .createDeploymentConfiguration(context, registration,
-                        SpringServlet.class, applicationContext);
+          .createDeploymentConfiguration(context, registration,
+            SpringServlet.class, applicationContext);
 
-        Assert.assertTrue(
-                "ProductionMode should have been 'true' as it was in the environment.",
-                deploymentConfiguration.isProductionMode());
+        Assertions.assertTrue(deploymentConfiguration.isProductionMode(),
+          "ProductionMode should have been 'true' as it was in the environment."
+        );
     }
 
     @Test
     public void compatibilityMode_isReadFromEnvironmentVariables() {
         DeploymentConfiguration deploymentConfiguration = VaadinServletContextInitializer.SpringStubServletConfig
-                .createDeploymentConfiguration(context, registration,
-                        SpringServlet.class, applicationContext);
+          .createDeploymentConfiguration(context, registration,
+            SpringServlet.class, applicationContext);
 
-        Assert.assertFalse("Compatibility mode should be 'false' by default.",
-                deploymentConfiguration.isCompatibilityMode());
+        Assertions.assertFalse(deploymentConfiguration.isCompatibilityMode(), "Compatibility mode should be 'false' by default."
+        );
 
         when(environment.getProperty(
-                "vaadin." + Constants.SERVLET_PARAMETER_COMPATIBILITY_MODE))
-                        .thenReturn(Boolean.TRUE.toString());
+          "vaadin." + Constants.SERVLET_PARAMETER_COMPATIBILITY_MODE))
+          .thenReturn(Boolean.TRUE.toString());
 
         deploymentConfiguration = VaadinServletContextInitializer.SpringStubServletConfig
-                .createDeploymentConfiguration(context, registration,
-                        SpringServlet.class, applicationContext);
+          .createDeploymentConfiguration(context, registration,
+            SpringServlet.class, applicationContext);
 
-        Assert.assertTrue(
-                "CompatibilityMode should have been 'true' as it was in the environment.",
-                deploymentConfiguration.isCompatibilityMode());
+        Assertions.assertTrue(deploymentConfiguration.isCompatibilityMode(),
+          "CompatibilityMode should have been 'true' as it was in the environment."
+        );
     }
 }

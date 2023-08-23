@@ -15,7 +15,7 @@
  */
 package com.vaadin.flow.spring.test;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
@@ -30,7 +30,7 @@ public class NPEHandlerIT extends AbstractSpringTest {
     public void npeIsHandledByComponent() {
         open();
 
-        Assert.assertTrue(
+        Assertions.assertTrue(
                 "Couldn't find element from the component which represents error for "
                         + NullPointerException.class.getName(),
                 isElementPresent(By.id("npe-handle")));
@@ -42,9 +42,9 @@ public class NPEHandlerIT extends AbstractSpringTest {
         getDriver().get(getTestURL(getRootURL(),
                 getContextPath() + '/' + nonExistingRoutePath, new String[0]));
 
-        Assert.assertTrue(getDriver().getPageSource().contains(String
+        Assertions.assertTrue(getDriver().getPageSource().contains(String
                 .format("Could not navigate to '%s'", nonExistingRoutePath)));
-        Assert.assertTrue(getDriver().getPageSource().contains(String.format(
+        Assertions.assertTrue(getDriver().getPageSource().contains(String.format(
                 "Reason: Couldn't find route for '%s'", nonExistingRoutePath)));
     }
 }

@@ -22,9 +22,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
@@ -37,7 +37,7 @@ import net.jcip.annotations.NotThreadSafe;
 @NotThreadSafe
 public class VaadinSessionScopeTest extends AbstractScopeTest {
 
-    @Before
+    @BeforeEach
     public void tearDown() {
         VaadinSession.setCurrent(null);
     }
@@ -91,12 +91,12 @@ public class VaadinSessionScopeTest extends AbstractScopeTest {
 
         springSession.fireSessionDestroy();
 
-        Assert.assertEquals(1, count.get());
-        Assert.assertNull(session.getAttribute(BeanStore.class));
+        Assertions.assertEquals(1, count.get());
+        Assertions.assertNull(session.getAttribute(BeanStore.class));
 
         // Destruction callbacks are not called anymore (they are removed)
         scope.getBeanStore().destroy();
-        Assert.assertEquals(1, count.get());
+        Assertions.assertEquals(1, count.get());
 
         // object has been removed from the storage, so object factory is called
         // once again to create the bean

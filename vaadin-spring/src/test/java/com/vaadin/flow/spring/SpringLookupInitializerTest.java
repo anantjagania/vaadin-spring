@@ -15,8 +15,8 @@
  */
 package com.vaadin.flow.spring;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -36,9 +36,9 @@ import java.util.Vector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.web.context.WebApplicationContext;
@@ -67,7 +67,7 @@ public class SpringLookupInitializerTest {
 
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         Mockito.when(context.getContext()).thenReturn(servletContext);
         Mockito.when(servletContext.getAttribute(
@@ -103,7 +103,7 @@ public class SpringLookupInitializerTest {
         Mockito.verify(context).setAttribute(Mockito.any(), captor.capture());
 
         Object value = captor.getValue();
-        Assert.assertTrue(value.getClass().getName()
+        Assertions.assertTrue(value.getClass().getName()
                 .startsWith(SpringLookupInitializer.class.getName()));
 
         List<Method> methods = Stream.of(value.getClass().getDeclaredMethods())
@@ -113,7 +113,7 @@ public class SpringLookupInitializerTest {
                 .collect(Collectors.toList());
 
         // self check
-        Assert.assertEquals(1, methods.size());
+        Assertions.assertEquals(1, methods.size());
 
         // at this moment the context should be available
         Mockito.when(servletContext.getAttribute(
@@ -133,7 +133,7 @@ public class SpringLookupInitializerTest {
         assertSingleServiceInLookup(lookup, List.class, ArrayList.class);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void createLookup_severalBeansAndDefaultServiceImpl_lookupThrows() {
         Map<String, TestSpi> map = new HashMap<>();
         map.put("foo", new TestSpi());
@@ -155,14 +155,14 @@ public class SpringLookupInitializerTest {
                 Collections.singletonMap(TestSpi.class,
                         Collections.singletonList(ServiceImpl.class)));
 
-        Assert.assertEquals(TestSpi.class,
+        Assertions.assertEquals(TestSpi.class,
                 lookup.lookup(TestSpi.class).getClass());
 
         Collection<TestSpi> services = lookup.lookupAll(TestSpi.class);
-        Assert.assertEquals(2, services.size());
+        Assertions.assertEquals(2, services.size());
         Iterator<TestSpi> iterator = services.iterator();
-        Assert.assertEquals(TestSpi.class, iterator.next().getClass());
-        Assert.assertEquals(ServiceImpl.class, iterator.next().getClass());
+        Assertions.assertEquals(TestSpi.class, iterator.next().getClass());
+        Assertions.assertEquals(ServiceImpl.class, iterator.next().getClass());
     }
 
     @Test
@@ -175,7 +175,7 @@ public class SpringLookupInitializerTest {
         assertSingleServiceInLookup(lookup, TestSpi.class, TestSpi.class);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void createLookup_oneBeanAndOneServiceImpl_lookupThrows() {
         Mockito.when(webAppContext.getBeansOfType(List.class))
                 .thenReturn(Collections.singletonMap("foo", new LinkedList()));
@@ -212,22 +212,22 @@ public class SpringLookupInitializerTest {
                         Arrays.asList(Vector.class, ArrayList.class)));
 
         Collection<List> lists = lookup.lookupAll(List.class);
-        Assert.assertEquals(3, lists.size());
+        Assertions.assertEquals(3, lists.size());
         Set<?> serviceClasses = lists.stream().map(Object::getClass)
                 .collect(Collectors.toSet());
 
-        Assert.assertTrue(serviceClasses.contains(LinkedList.class));
-        Assert.assertTrue(serviceClasses.contains(Stack.class));
-        Assert.assertTrue(serviceClasses.contains(ArrayList.class));
+        Assertions.assertTrue(serviceClasses.contains(LinkedList.class));
+        Assertions.assertTrue(serviceClasses.contains(Stack.class));
+        Assertions.assertTrue(serviceClasses.contains(ArrayList.class));
     }
 
     private <T> void assertSingleServiceInLookup(Lookup lookup, Class<T> spi,
             Class<? extends T> impl) {
-        Assert.assertEquals(impl, lookup.lookup(spi).getClass());
+        Assertions.assertEquals(impl, lookup.lookup(spi).getClass());
 
         Collection<T> services = lookup.lookupAll(spi);
-        Assert.assertEquals(1, services.size());
-        Assert.assertEquals(impl, services.iterator().next().getClass());
+        Assertions.assertEquals(1, services.size());
+        Assertions.assertEquals(impl, services.iterator().next().getClass());
     }
 
 }

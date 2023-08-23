@@ -15,27 +15,28 @@
  */
 package com.vaadin.flow.spring.service;
 
-import javax.servlet.ServletException;
-
-import java.util.Collections;
-import java.util.Properties;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import com.vaadin.flow.server.DeploymentConfigurationFactory;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.frontend.FallbackChunk;
 import com.vaadin.flow.shared.communication.PushMode;
 import com.vaadin.flow.spring.instantiator.SpringInstantiatorTest;
 
-@RunWith(SpringRunner.class)
+import jakarta.servlet.ServletException;
+
+import java.util.Collections;
+import java.util.Properties;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = { "vaadin.push-mode=MANUAL" })
 @Import(TestServletConfiguration.class)
 public class SpringServletTest {
@@ -49,7 +50,7 @@ public class SpringServletTest {
         VaadinService service = SpringInstantiatorTest.getService(context,
                 new Properties());
         PushMode pushMode = service.getDeploymentConfiguration().getPushMode();
-        Assert.assertEquals(PushMode.MANUAL, pushMode);
+        Assertions.assertEquals(PushMode.MANUAL, pushMode);
     }
 
     @Test
@@ -57,8 +58,8 @@ public class SpringServletTest {
             throws ServletException {
         VaadinService service = SpringInstantiatorTest.getService(context,
                 new Properties(), true);
-        Assert.assertEquals("context://vaadinServlet/",
-                service.getDeploymentConfiguration().getPushURL());
+        Assertions.assertEquals("context://vaadinServlet/",
+          service.getDeploymentConfiguration().getPushURL());
     }
 
     @Test
@@ -68,8 +69,8 @@ public class SpringServletTest {
         configProperties.setProperty("pushURL", "customUrl");
         VaadinService service = SpringInstantiatorTest.getService(context,
                 configProperties, true);
-        Assert.assertEquals("context://vaadinServlet/customUrl",
-                service.getDeploymentConfiguration().getPushURL());
+        Assertions.assertEquals("context://vaadinServlet/customUrl",
+          service.getDeploymentConfiguration().getPushURL());
     }
 
     @Test
@@ -79,8 +80,8 @@ public class SpringServletTest {
         configProperties.setProperty("pushURL", "/customUrl");
         VaadinService service = SpringInstantiatorTest.getService(context,
                 configProperties, true);
-        Assert.assertEquals("context://vaadinServlet/customUrl",
-                service.getDeploymentConfiguration().getPushURL());
+        Assertions.assertEquals("context://vaadinServlet/customUrl",
+          service.getDeploymentConfiguration().getPushURL());
     }
 
     @Test
@@ -90,8 +91,8 @@ public class SpringServletTest {
         properties.setProperty("pushURL", "context://vaadinServlet/customUrl");
         VaadinService service = SpringInstantiatorTest.getService(context,
                 properties, true);
-        Assert.assertEquals("context://vaadinServlet/customUrl",
-                service.getDeploymentConfiguration().getPushURL());
+        Assertions.assertEquals("context://vaadinServlet/customUrl",
+          service.getDeploymentConfiguration().getPushURL());
     }
 
     @Test
@@ -101,8 +102,8 @@ public class SpringServletTest {
         properties.setProperty("pushURL", "/vaadinServlet/customUrl");
         VaadinService service = SpringInstantiatorTest.getService(context,
                 properties, true);
-        Assert.assertEquals("context://vaadinServlet/customUrl",
-                service.getDeploymentConfiguration().getPushURL());
+        Assertions.assertEquals("context://vaadinServlet/customUrl",
+          service.getDeploymentConfiguration().getPushURL());
     }
 
     // #662
@@ -116,8 +117,8 @@ public class SpringServletTest {
                 fallbackChunk);
         VaadinService service = SpringInstantiatorTest.getService(context,
                 properties, true);
-        Assert.assertSame(fallbackChunk,
-                service.getDeploymentConfiguration().getInitParameters()
-                        .get(DeploymentConfigurationFactory.FALLBACK_CHUNK));
+        Assertions.assertSame(fallbackChunk,
+          service.getDeploymentConfiguration().getInitParameters()
+            .get(DeploymentConfigurationFactory.FALLBACK_CHUNK));
     }
 }

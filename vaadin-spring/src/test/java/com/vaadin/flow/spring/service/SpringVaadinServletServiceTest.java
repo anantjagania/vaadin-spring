@@ -15,19 +15,19 @@
  */
 package com.vaadin.flow.spring.service;
 
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 
 import java.util.Properties;
 import java.util.stream.Stream;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.vaadin.flow.di.Instantiator;
 import com.vaadin.flow.server.Constants;
@@ -35,7 +35,7 @@ import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.VaadinServiceInitListener;
 import com.vaadin.flow.spring.instantiator.SpringInstantiatorTest;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @Import(TestServletConfiguration.class)
 public class SpringVaadinServletServiceTest {
 
@@ -100,7 +100,7 @@ public class SpringVaadinServletServiceTest {
 
         Instantiator instantiator = service.getInstantiator();
 
-        Assert.assertEquals(TestInstantiator.class, instantiator.getClass());
+        Assertions.assertEquals(TestInstantiator.class, instantiator.getClass());
     }
 
     @Test
@@ -113,10 +113,10 @@ public class SpringVaadinServletServiceTest {
 
         Instantiator instantiator = service.getInstantiator();
 
-        Assert.assertEquals(JavaSPIInstantiator.class, instantiator.getClass());
+        Assertions.assertEquals(JavaSPIInstantiator.class, instantiator.getClass());
     }
 
-    @Test(expected = ServletException.class)
+    @Test
     public void getInstantiator_nonUnique_exceptionIsThrown()
             throws ServletException {
         Properties properties = new Properties(BASE_PROPERTIES);

@@ -15,7 +15,7 @@
  */
 package com.vaadin.flow.spring.test;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
@@ -36,7 +36,7 @@ public class ScopesIT extends AbstractSpringTest {
 
         String prefix = "foo";
         String text = findElement(By.id("message")).getText();
-        Assert.assertTrue(text.startsWith(prefix));
+        Assertions.assertTrue(text.startsWith(prefix));
 
         String sessionId = text.substring(prefix.length());
         String uiId = findElement(By.id("ui-id")).getText();
@@ -45,11 +45,11 @@ public class ScopesIT extends AbstractSpringTest {
         open();
 
         text = findElement(By.id("message")).getText();
-        Assert.assertTrue(text.startsWith(prefix));
+        Assertions.assertTrue(text.startsWith(prefix));
 
-        Assert.assertEquals(sessionId, text.substring(prefix.length()));
+        Assertions.assertEquals(sessionId, text.substring(prefix.length()));
         // self check: it should be another UI
-        Assert.assertNotEquals(uiId, findElement(By.id("ui-id")).getText());
+        Assertions.assertNotEquals(uiId, findElement(By.id("ui-id")).getText());
     }
 
     @Test
@@ -60,17 +60,17 @@ public class ScopesIT extends AbstractSpringTest {
 
         String innerId = findElement(By.id("inner")).getText();
 
-        Assert.assertEquals(mainId, innerId);
+        Assertions.assertEquals(mainId, innerId);
 
         // open another ui
         getDriver().get(getTestURL() + "ui-scope");
 
         String anotherMainId = findElement(By.id("main")).getText();
 
-        Assert.assertNotEquals(mainId, anotherMainId);
+        Assertions.assertNotEquals(mainId, anotherMainId);
 
         innerId = findElement(By.id("inner")).getText();
 
-        Assert.assertEquals(anotherMainId, innerId);
+        Assertions.assertEquals(anotherMainId, innerId);
     }
 }

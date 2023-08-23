@@ -1,6 +1,6 @@
 package com.vaadin.flow.spring.test;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 
 import com.vaadin.testbench.TestBenchElement;
@@ -12,7 +12,7 @@ public class PushIT extends AbstractSpringTest {
         open();
         $("button").first().click();
         TestBenchElement world = $("p").attribute("id", "world").waitForFirst();
-        Assert.assertEquals("World", world.getText());
+        Assertions.assertEquals("World", world.getText());
     }
 
     @Override

@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -51,7 +51,7 @@ public class StreamResourceIT extends AbstractSpringTest {
             List<String> lines = IOUtils.readLines(stream,
                     StandardCharsets.UTF_8);
             String text = lines.stream().collect(Collectors.joining());
-            Assert.assertEquals("Hello world", text);
+            Assertions.assertEquals("Hello world", text);
         }
     }
 

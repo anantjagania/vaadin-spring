@@ -15,7 +15,7 @@
  */
 package com.vaadin.flow.spring.test;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -34,7 +34,7 @@ public class VaadinAutowiredDependenciesIT extends AbstractSpringTest {
         WebElement uiInjected = findElement(By.id("ui-injected"));
         WebElement uiCurrent = findElement(By.id("ui-current"));
 
-        Assert.assertEquals(
+        Assertions.assertEquals(
                 "UI id and hashcode for injected UI instance are "
                         + "not the same as for current UI instance",
                 uiCurrent.getText(), uiInjected.getText());
@@ -47,7 +47,7 @@ public class VaadinAutowiredDependenciesIT extends AbstractSpringTest {
         WebElement sessionInjected = findElement(By.id("session-injected"));
         WebElement sessionCurrent = findElement(By.id("session-current"));
 
-        Assert.assertEquals(
+        Assertions.assertEquals(
                 "Session csrf token and hashcode for injected session instance are "
                         + "not the same as for current session instance",
                 sessionCurrent.getText(), sessionInjected.getText());

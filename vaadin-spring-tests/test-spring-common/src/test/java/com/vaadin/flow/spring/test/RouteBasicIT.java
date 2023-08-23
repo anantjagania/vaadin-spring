@@ -16,7 +16,7 @@
 
 package com.vaadin.flow.spring.test;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
@@ -31,7 +31,7 @@ public class RouteBasicIT extends AbstractSpringTest {
     public void testServletDeployed() throws Exception {
         open();
 
-        Assert.assertTrue(isElementPresent(By.id("main")));
+        Assertions.assertTrue(isElementPresent(By.id("main")));
 
         findElement(By.id("foo")).click();
 

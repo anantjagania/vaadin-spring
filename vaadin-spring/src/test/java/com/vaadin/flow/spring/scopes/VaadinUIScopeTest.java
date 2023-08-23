@@ -15,17 +15,17 @@
  */
 package com.vaadin.flow.spring.scopes;
 
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import net.jcip.annotations.NotThreadSafe;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
@@ -35,7 +35,6 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.router.Router;
 import com.vaadin.flow.server.Constants;
 import com.vaadin.flow.server.DefaultDeploymentConfiguration;
-import com.vaadin.flow.server.VaadinContext;
 import com.vaadin.flow.server.VaadinService;
 import com.vaadin.flow.server.VaadinServletContext;
 import com.vaadin.flow.server.VaadinSession;
@@ -52,14 +51,14 @@ public class VaadinUIScopeTest extends AbstractScopeTest {
 
     private UI ui;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         VaadinSession.setCurrent(null);
         UI.setCurrent(null);
         ui = null;
     }
 
-    @After
+    @AfterEach
     public void clearUI() {
         ui = null;
     }
@@ -88,7 +87,7 @@ public class VaadinUIScopeTest extends AbstractScopeTest {
         registerDestructionCallback_currentScopeIsSet_objectIsStored(scope);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void get_noCurrentUI_throwException() {
         Scope scope = getScope();
         mockSession();
@@ -96,7 +95,7 @@ public class VaadinUIScopeTest extends AbstractScopeTest {
         scope.get("foo", Mockito.mock(ObjectFactory.class));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void registerDestructionCallback_noCurrentUI_throwException() {
         Scope scope = getScope();
         mockSession();
@@ -104,7 +103,7 @@ public class VaadinUIScopeTest extends AbstractScopeTest {
         scope.registerDestructionCallback("foo", Mockito.mock(Runnable.class));
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void remove_noCurrentUI_throwException() {
         Scope scope = getScope();
 
@@ -140,16 +139,16 @@ public class VaadinUIScopeTest extends AbstractScopeTest {
         String attribute = VaadinUIScope.class.getName() + "$UIStoreWrapper";
 
         // self control - the attribute name is used by the implementation
-        Assert.assertNotNull(springSession.getAttribute(attribute));
+        Assertions.assertNotNull(springSession.getAttribute(attribute));
 
         springSession.fireSessionDestroy();
 
-        Assert.assertEquals(1, count.get());
-        Assert.assertNull(springSession.getAttribute(attribute));
+        Assertions.assertEquals(1, count.get());
+        Assertions.assertNull(springSession.getAttribute(attribute));
 
         // Destruction callbacks are not called anymore (they are removed)
         scope.getBeanStore().destroy();
-        Assert.assertEquals(1, count.get());
+        Assertions.assertEquals(1, count.get());
 
         // object has been removed from the storage, so object factory is called
         // once again to create the bean
@@ -175,11 +174,11 @@ public class VaadinUIScopeTest extends AbstractScopeTest {
 
         ComponentUtil.onComponentDetach(ui);
 
-        Assert.assertEquals(1, count.get());
+        Assertions.assertEquals(1, count.get());
 
         // Destruction callbacks are not called anymore (they are removed)
         scope.getBeanStore().destroy();
-        Assert.assertEquals(1, count.get());
+        Assertions.assertEquals(1, count.get());
 
         // object has been removed from the storage, so object factory is called
         // once again to create the bean

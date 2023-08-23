@@ -15,7 +15,7 @@
  */
 package com.vaadin.flow.spring.test;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 
 import com.vaadin.flow.component.button.testbench.ButtonElement;
@@ -31,7 +31,7 @@ public class ComponentTestIT extends AbstractSpringTest {
 
         $(ButtonElement.class).first().click();
 
-        Assert.assertTrue(
+        Assertions.assertTrue(
                 "Clicking button should have opened a notification successfully.",
                 $(NotificationElement.class).exists());
     }

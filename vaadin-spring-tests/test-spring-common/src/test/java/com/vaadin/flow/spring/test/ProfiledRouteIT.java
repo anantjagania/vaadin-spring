@@ -15,7 +15,7 @@
  */
 package com.vaadin.flow.spring.test;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
@@ -30,7 +30,7 @@ public class ProfiledRouteIT extends AbstractSpringTest {
     public void profiledRouteIsEnabled() {
         open();
 
-        Assert.assertTrue(
+        Assertions.assertTrue(
                 "Couldn't find a navigation target with enabled profile",
                 isElementPresent(By.id("profiled-enabled")));
     }

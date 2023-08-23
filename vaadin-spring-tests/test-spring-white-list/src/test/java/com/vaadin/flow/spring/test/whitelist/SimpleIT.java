@@ -20,7 +20,7 @@ import com.vaadin.flow.component.button.testbench.ButtonElement;
 import com.vaadin.flow.component.textfield.testbench.TextFieldElement;
 import com.vaadin.flow.testutil.ChromeBrowserTest;
 import com.vaadin.testbench.TestBenchElement;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +38,7 @@ public class SimpleIT extends ChromeBrowserTest {
         button.click();
 
         TextFieldElement log = viewElement.$(TextFieldElement.class).id("log");
-        Assert.assertEquals(SimpleView.CLICKED_MESSAGE, log.getValue());
+        Assertions.assertEquals(SimpleView.CLICKED_MESSAGE, log.getValue());
     }
 
     @Override
